@@ -455,19 +455,10 @@ class CityflowEnv:
             self.path_to_work_directory = os.path.dirname(os.path.abspath(__file__))
 
         # 给 CityFLow 配置文件中的 dir 最后加上斜杠，不然 CityFLow 就会报错
-        cityflow_config_dir = os.path.dirname(os.path.abspath(__file__))
-        if not cityflow_config_dir[-1] == "/":
-            cityflow_config_dir += "/"
-        # 为数据文件夹创建软链接
-        if not os.path.exists(
-            os.path.join(self.path_to_work_directory, "cityflow_data")
-        ):
-            os.symlink(
-                os.path.join(
-                    os.path.dirname(os.path.abspath(__file__)), "cityflow_data"
-                ),
-                os.path.join(self.path_to_work_directory, "cityflow_data"),
-            )
+        self.cityflow_config_dir = os.path.dirname(os.path.abspath(__file__))
+        if not self.cityflow_config_dir[-1] == "/":
+            self.cityflow_config_dir += "/"
+
         self.dic_traffic_env_conf = {
             "RUN_COUNTS": 3600,
             "TOP_K_ADJACENCY": 5,
@@ -537,7 +528,7 @@ class CityflowEnv:
         cityflow_config = {
             "interval": self.dic_traffic_env_conf["INTERVAL"],
             "seed": self.dic_traffic_env_conf["seed"],
-            "dir": cityflow_config_dir,
+            "dir": self.cityflow_config_dir,
             "roadnetFile": self.dic_traffic_env_conf["roadnetFile"],
             "flowFile": self.dic_traffic_env_conf["flowFile"],
             "rlTrafficLight": rlTrafficLight,
@@ -881,7 +872,7 @@ class CityflowEnv:
 
     def get_roadnet_file_path(self):
         return os.path.join(
-            self.path_to_work_directory, self.dic_traffic_env_conf["roadnetFile"]
+            self.cityflow_config_dir, self.dic_traffic_env_conf["roadnetFile"]
         )
 
     def get_state_size(self):
