@@ -545,7 +545,7 @@ class CityflowEnv:
         else:  # 配置文件存在
             if rewrite_config:
                 save_json(cityflow_config, self.cityflow_config_filepath)
-
+        time.sleep(1)  # 等待配置文件写入完成
         self.reset()
 
     def reset(self):
