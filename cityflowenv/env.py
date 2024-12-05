@@ -515,6 +515,10 @@ class CityflowEnv:
         self.list_lanes = None  # TODO 似乎删除不影响
         self.system_states = None
         self.lane_length = None
+        self.episode_limit = 5 + int(
+            self.dic_traffic_env_conf["RUN_COUNTS"]
+            / self.dic_traffic_env_conf["MIN_ACTION_TIME"]
+        )
 
         # check min action time
         if (
@@ -575,7 +579,6 @@ class CityflowEnv:
             self.list_inter_log.append([])
 
         self.n_agents = len(self.list_intersection.keys())
-        self.episode_limit = self.dic_traffic_env_conf["RUN_COUNTS"]
 
         self.list_lanes = []
         for inter in self.list_intersection.values():
